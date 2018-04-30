@@ -4,9 +4,9 @@ import uuidv1 from 'uuid';
 
 import 'mapbox-gl/dist/mapbox-gl.css';
 
-import { saveToLocalStorage } from '../../functions';
+import { saveToLocalStorage, getPlacesFromLocalStorage } from '../../functions';
 
-// import Places from '../Places/Places';
+import Places from '../Places/Places';
 // import styles from './Map.module.scss';
 
 const Map = ReactMapboxGl({
@@ -21,8 +21,13 @@ class MapBox extends Component {
     showAllPlaces: false,
     lng: '',
     lat: '',
-    placeTitle: ''
+    placeTitle: '',
+    places: ''
   };
+
+  componentDidMount() {
+    getPlacesFromLocalStorage();
+  }
 
   onMapClick = (map, evt) => {
     const { lng, lat } = evt.lngLat;
@@ -42,12 +47,15 @@ class MapBox extends Component {
     };
 
     saveToLocalStorage(place);
+
+    // Close tooltip after adding place
+    this.setState({ lng: '', lat: '' });
   };
 
   onChange = e => this.setState({ [e.target.name]: e.target.value });
 
   render() {
-    const { start, controls, overlay, lat, lng } = this.state;
+    const { start, controls, overlay, lat, lng, places } = this.state;
 
     return (
       <Map
@@ -72,6 +80,7 @@ class MapBox extends Component {
           <input name="placeTitle" type="text" onChange={this.onChange} />
           <button onClick={this.onAddPlace}>Lägg til</button>
         </Popup>
+        <Places places />
       </Map>
     );
   }

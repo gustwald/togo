@@ -6,7 +6,7 @@ import styles from './App.module.scss';
 class App extends Component {
   render() {
     return (
-      <div>
+      <div className={styles.app}>
         <MapBox />
       </div>
     );

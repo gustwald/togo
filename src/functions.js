@@ -8,3 +8,9 @@ export const saveToLocalStorage = place => {
   // Save array
   localStorage.setItem('places', JSON.stringify(places));
 };
+
+export const getPlacesFromLocalStorage = () => {
+  const places = JSON.parse(localStorage.getItem('places') || '[]');
+  console.log(places);
+  return places;
+};
