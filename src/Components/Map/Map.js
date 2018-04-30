@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ReactMapboxGl, { Popup } from 'react-mapbox-gl';
+import uuidv1 from 'uuid';
 
 import 'mapbox-gl/dist/mapbox-gl.css';
 
@@ -30,12 +31,14 @@ class MapBox extends Component {
   };
 
   onAddPlace = () => {
+    const id = uuidv1();
     const { placeTitle, lng, lat } = this.state;
 
     const place = {
       title: placeTitle,
       longitude: lng,
-      latitude: lat
+      latitude: lat,
+      id
     };
 
     saveToLocalStorage(place);
