@@ -18,3 +18,7 @@ input {
 .mapboxgl-popup-content {
   text-align: center;
 }
+
+li {
+  list-style: none;
+}
