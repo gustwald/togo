@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+
 import styles from './Places.module.scss';
 
 class Places extends Component {
   render() {
-    // TODO add to proptypes
     const { places } = this.props;
-    console.log(places);
+
+    if (!places) return null;
     return (
       <div className={styles.places}>
         <ul>{places && places.map(place => <li key={place.id}>{place.title}</li>)}</ul>
@@ -13,5 +15,9 @@ class Places extends Component {
     );
   }
 }
+
+Places.propTypes = {
+  places: PropTypes.array.isRequired
+};
 
 export default Places;
