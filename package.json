@@ -1,0 +1,27 @@
+{
+  "name": "togo",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "dotenv": "^5.0.1",
+    "mapbox-gl": "^0.45.0-beta.1",
+    "react": "^16.3.2",
+    "react-dom": "^16.3.2",
+    "react-map-gl": "^3.2.7",
+    "react-scripts": "1.1.4"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "startRewire": "react-app-rewired start",
+    "build": "react-scripts build",
+    "buildRewire": "react-app-rewired build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  },
+  "devDependencies": {
+    "node-sass": "^4.9.0",
+    "react-app-rewire-css-modules": "codebandits/react-app-rewire-css-modules",
+    "react-app-rewired": "^1.5.2",
+    "sass-loader": "^7.0.1"
+  }
+}
