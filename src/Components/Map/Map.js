@@ -1,38 +1,77 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
+import ReactMapboxGl, { Popup } from 'react-mapbox-gl';
 
-import "mapbox-gl/dist/mapbox-gl.css";
-import mapboxgl from "mapbox-gl";
+import 'mapbox-gl/dist/mapbox-gl.css';
 
-import styles from "./Map.module.scss";
+import { saveToLocalStorage } from '../../functions';
 
-mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_TOKEN;
+// import Places from '../Places/Places';
+// import styles from './Map.module.scss';
 
-class Map extends Component {
-  state = {};
+const Map = ReactMapboxGl({
+  accessToken: process.env.REACT_APP_MAPBOX_TOKEN
+});
 
-  componentDidMount() {
-    this.map = new mapboxgl.Map({
-      container: "map",
-      style: "mapbox://styles/mapbox/streets-v10",
-      zoom: 11,
-      attributionControl: false,
-      center: [18.06324, 59.334591]
-    });
-  }
-
-  onMapClick = () => {
-    this.map.on("click", e => {
-      console.log(e.lngLat);
-    });
+class MapBox extends Component {
+  state = {
+    start: [18.06324, 59.334591],
+    controls: false,
+    overlay: 'mapbox://styles/mapbox/streets-v9',
+    showAllPlaces: false,
+    lng: '',
+    lat: '',
+    placeTitle: ''
   };
 
+  onMapClick = (map, evt) => {
+    const { lng, lat } = evt.lngLat;
+    this.setState({ lng, lat });
+    console.log(this.state.lng, this.state.lat);
+  };
+
+  onAddPlace = () => {
+    const { placeTitle, lng, lat } = this.state;
+
+    const place = {
+      title: placeTitle,
+      longitude: lng,
+      latitude: lat
+    };
+
+    saveToLocalStorage(place);
+  };
+
+  onChange = e => this.setState({ [e.target.name]: e.target.value });
+
   render() {
+    const { start, controls, overlay, lat, lng } = this.state;
+
     return (
-      <div className={styles.map} id="map" onClick={this.onMapClick}>
-        <p>{this.state.loading}</p>
-      </div>
+      <Map
+        style={overlay}
+        containerStyle={{
+          height: '100vh',
+          width: '100vw'
+        }}
+        attributionControl={controls}
+        center={start}
+        onClick={this.onMapClick}
+      >
+        <Popup
+          coordinates={[lng, lat]}
+          offset={{
+            'bottom-left': [12, -38],
+            bottom: [0, -38],
+            'bottom-right': [-12, -38]
+          }}
+        >
+          <h1>Title</h1>
+          <input name="placeTitle" type="text" onChange={this.onChange} />
+          <button onClick={this.onAddPlace}>Lägg til</button>
+        </Popup>
+      </Map>
     );
   }
 }
 
-export default Map;
+export default MapBox;
