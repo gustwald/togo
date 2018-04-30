@@ -7,6 +7,7 @@ class Places extends Component {
   render() {
     const { places } = this.props;
 
+    // Nullcheck if we dont have any saved places yet, otherwise prop-types would break the app
     if (!places) return null;
     return (
       <div className={styles.places}>

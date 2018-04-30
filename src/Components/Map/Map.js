@@ -83,6 +83,7 @@ class MapBox extends Component {
         center={start}
         onClick={this.onMapClick}
       >
+        {/* Add POPUP as component instead */}
         <Popup
           coordinates={[lng, lat]}
           offset={{
