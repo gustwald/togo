@@ -7,4 +7,16 @@
   right: 0;
 
   z-index: 3;
+
+  padding: 20px 30px;
+}
+
+.placesListItem {
+  text-transform: uppercase;
+  transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;
+}
+
+.placesListItem:hover {
+  transform: translateX(6px);
+  color: red;
 }

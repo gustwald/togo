@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ReactMapboxGl, { Popup, Marker } from 'react-mapbox-gl';
+import Menu from '../Menu/Menu';
 import uuidv1 from 'uuid';
 
 import 'mapbox-gl/dist/mapbox-gl.css';
@@ -83,6 +84,7 @@ class MapBox extends Component {
         center={start}
         onClick={this.onMapClick}
       >
+        <Menu onClick={this.onMenuClick} />
         {/* Add POPUP as component instead */}
         <Popup
           coordinates={[lng, lat]}

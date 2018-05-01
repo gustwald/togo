@@ -11,7 +11,14 @@ class Places extends Component {
     if (!places) return null;
     return (
       <div className={styles.places}>
-        <ul>{places && places.map(place => <li key={place.id}>{place.title}</li>)}</ul>
+        <ul>
+          {places &&
+            places.map(place => (
+              <li className={styles.placesListItem} key={place.id}>
+                {place.title}
+              </li>
+            ))}
+        </ul>
       </div>
     );
   }

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-
 import MapBox from '../Map/Map';
 import styles from './App.module.scss';
 
