@@ -3,7 +3,7 @@
   top: 0;
   right: 0;
   bottom: 0;
-  width: 100px;
+  width: 50px;
   height: 60px;
   cursor: pointer;
   z-index: 5;
@@ -12,8 +12,8 @@
 .hamburgerMenu,
 .hamburgerMenu:after,
 .hamburgerMenu:before {
-  width: 100px;
-  height: 10px;
+  width: 40px;
+  height: 5px;
 }
 
 .hamburgerMenu {
@@ -30,7 +30,7 @@
   content: '';
   position: absolute;
   left: 0;
-  bottom: 25px;
+  bottom: 15px;
   background: black;
   transition: bottom 300ms 300ms cubic-bezier(0.23, 1, 0.32, 1),
     transform 300ms cubic-bezier(0.23, 1, 0.32, 1);
@@ -40,7 +40,7 @@
   content: '';
   position: absolute;
   left: 0;
-  top: 25px;
+  top: 15px;
   background: black;
   transition: top 300ms 300ms cubic-bezier(0.23, 1, 0.32, 1),
     transform 300ms cubic-bezier(0.23, 1, 0.32, 1);

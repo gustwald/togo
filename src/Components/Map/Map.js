@@ -4,12 +4,11 @@ import ReactMapboxGl, { Popup, Marker } from 'react-mapbox-gl';
 import uuidv1 from 'uuid';
 import 'mapbox-gl/dist/mapbox-gl.css';
 
-import { saveToLocalStorage, getPlacesFromLocalStorage } from '../../functions';
+import { saveToLocalStorage, getPlacesFromLocalStorage, deletePlace } from '../../functions';
 
 import marker from '../../assets/marker.svg';
 import markerVisited from '../../assets/markerVisited.svg';
 
-import Menu from '../Menu/Menu';
 import Places from '../Places/Places';
 import styles from './Map.module.scss';
 
@@ -27,7 +26,6 @@ class MapBox extends Component {
     lat: '',
     placeTitle: '',
     places: [],
-    visited: false,
     loaded: false
   };
 
@@ -45,7 +43,7 @@ class MapBox extends Component {
   onAddPlace = () => {
     // Unique id for all places so we can add filters and/or remove mark as visited
     const id = uuidv1();
-    const { placeTitle, lng, lat, visited } = this.state;
+    const { placeTitle, lng, lat } = this.state;
 
     // Add all props to an object
     const place = {
@@ -53,7 +51,7 @@ class MapBox extends Component {
       longitude: lng,
       latitude: lat,
       id,
-      visited
+      visited: false
     };
 
     // Push place obj to state so we get UI update
@@ -75,10 +73,16 @@ class MapBox extends Component {
 
   onChange = e => this.setState({ [e.target.name]: e.target.value });
   handleChange = e => this.setState({ [e.target.name]: e.target.checked });
+  handleVisitedChange = e => this.setState({ [e.target.name]: e.target.checked });
+
+  deletePlace = place => {
+    const { id } = place;
+
+    deletePlace(id);
+  };
 
   render() {
     const { start, controls, overlay, lat, lng, places, showAllPlaces, loaded } = this.state;
-    console.log(showAllPlaces);
     return (
       <Map
         style={overlay}
@@ -92,7 +96,6 @@ class MapBox extends Component {
         center={start}
         onClick={this.onMapClick}
       >
-        <Menu onClick={this.onMenuClick} />
         {/* Add POPUP as component instead */}
         <Popup
           coordinates={[lng, lat]}
@@ -116,7 +119,13 @@ class MapBox extends Component {
               />
             </Marker>
           ))}
-        <Places onPlaceClick={this.onListClick} handleChange={this.handleChange} places={places} />
+        <Places
+          onVisitedChange={this.handleVisitedChange}
+          onPlaceClick={this.onListClick}
+          handleChange={this.handleChange}
+          deletePlace={this.deletePlace}
+          places={places}
+        />
       </Map>
     );
   }

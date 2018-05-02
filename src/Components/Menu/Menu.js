@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import styles from './Menu.module.scss';
 
 class Menu extends Component {
@@ -7,6 +8,9 @@ class Menu extends Component {
   };
 
   onMenuClick = () => {
+    const { onMenuClick } = this.props;
+
+    onMenuClick();
     const { menu } = this.state;
 
     if (menu === styles.hamburgerMenu) {
@@ -25,5 +29,9 @@ class Menu extends Component {
     );
   }
 }
+
+Menu.propTypes = {
+  onMenuClick: PropTypes.func.isRequired
+};
 
 export default Menu;
