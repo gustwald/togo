@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
 import ReactMapboxGl, { Popup, Marker } from 'react-mapbox-gl';
-import Menu from '../Menu/Menu';
-import uuidv1 from 'uuid';
 
+import uuidv1 from 'uuid';
 import 'mapbox-gl/dist/mapbox-gl.css';
 
 import { saveToLocalStorage, getPlacesFromLocalStorage } from '../../functions';
-import pin from '../../assets/pin.svg';
 
+import marker from '../../assets/marker.svg';
+import markerVisited from '../../assets/markerVisited.svg';
+
+import Menu from '../Menu/Menu';
 import Places from '../Places/Places';
 import styles from './Map.module.scss';
 
@@ -20,25 +22,19 @@ class MapBox extends Component {
     start: [18.06324, 59.334591],
     controls: false,
     overlay: 'mapbox://styles/mapbox/streets-v9',
-    showAllPlaces: true,
+    showAllPlaces: false,
     lng: '',
     lat: '',
     placeTitle: '',
-    places: []
+    places: [],
+    visited: false,
+    loaded: false
   };
 
   componentWillMount() {
     // Get all places from localStorage
     this.setState({ places: getPlacesFromLocalStorage() });
   }
-
-  componentDidMount() {
-    // TODO: add checkbox to show or hide all places
-    // this.places !== null
-    //   ? this.setState({ showAllPlaces: true })
-    //   : this.setState({ showAllPlaces: false });
-  }
-
   onMapClick = (map, evt) => {
     const { lng, lat } = evt.lngLat;
 
@@ -49,17 +45,21 @@ class MapBox extends Component {
   onAddPlace = () => {
     // Unique id for all places so we can add filters and/or remove mark as visited
     const id = uuidv1();
-    const { placeTitle, lng, lat } = this.state;
+    const { placeTitle, lng, lat, visited } = this.state;
 
     // Add all props to an object
     const place = {
       title: placeTitle,
       longitude: lng,
       latitude: lat,
-      id
+      id,
+      visited
     };
 
-    // We cant to store all the places as objects in an array so we can easily iterate over it
+    // Push place obj to state so we get UI update
+    this.state.places.push(place);
+
+    // We want to store all the places as objects in an array so we can easily iterate over it
     // and spread it as markers
     // TODO: add promise so that we can update map with marker as soon as we add it
     saveToLocalStorage(place);
@@ -68,18 +68,26 @@ class MapBox extends Component {
     this.setState({ lng: '', lat: '' });
   };
 
+  onListClick = place => {
+    const { longitude, latitude } = place;
+    this.setState({ lng: longitude, lat: latitude });
+  };
+
   onChange = e => this.setState({ [e.target.name]: e.target.value });
+  handleChange = e => this.setState({ [e.target.name]: e.target.checked });
 
   render() {
-    const { start, controls, overlay, lat, lng, places, showAllPlaces } = this.state;
-
+    const { start, controls, overlay, lat, lng, places, showAllPlaces, loaded } = this.state;
+    console.log(showAllPlaces);
     return (
       <Map
         style={overlay}
         containerStyle={{
           height: '100vh',
-          width: '100vw'
+          width: '100vw',
+          visibility: loaded ? 'visible' : 'hidden'
         }}
+        onStyleLoad={() => this.setState({ loaded: true })}
         attributionControl={controls}
         center={start}
         onClick={this.onMapClick}
@@ -101,10 +109,14 @@ class MapBox extends Component {
         {showAllPlaces &&
           places.map(place => (
             <Marker key={place.id} coordinates={[place.longitude, place.latitude]} anchor="bottom">
-              <img className={styles.marker} src={pin} alt={place.id} />
+              <img
+                className={styles.marker}
+                src={place.visited ? markerVisited : marker}
+                alt={place.id}
+              />
             </Marker>
           ))}
-        <Places places={places} />
+        <Places onPlaceClick={this.onListClick} handleChange={this.handleChange} places={places} />
       </Map>
     );
   }

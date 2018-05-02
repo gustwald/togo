@@ -11,6 +11,6 @@ export const saveToLocalStorage = place => {
 
 export const getPlacesFromLocalStorage = () => {
   const places = JSON.parse(localStorage.getItem('places') || '[]');
-  console.log(places);
+
   return places;
 };
