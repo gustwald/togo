@@ -11,11 +11,34 @@ class App extends Component {
     this.state = {
       places: JSON.parse(localStorage.getItem('places') || '[]'),
       loaded: false,
-      showAllPlaces: false
+      visiblePlaces: []
     };
   }
 
-  highlighLocation() {}
+  setLoaded = () => {
+    this.setState({
+      loaded: true
+    });
+  };
+
+  setVisible = visible => {
+    this.setState({
+      visiblePlaces: [visible]
+    });
+  };
+
+  deletePlace = id => {
+    this.setState(
+      {
+        places: this.state.places.filter(place => place.id !== id),
+        visiblePlaces: this.state.visiblePlaces.filter(place => place.id !== id)
+      },
+      // Callback because setState is asynchronous
+      () => {
+        localStorage.setItem('places', JSON.stringify(this.state.places));
+      }
+    );
+  };
 
   addPlace = place => {
     this.setState(
@@ -29,31 +52,8 @@ class App extends Component {
     );
   };
 
-  showAllPlaces = checked => {
-    this.setState({
-      showAllPlaces: checked
-    });
-  };
-
-  setLoaded = () => {
-    this.setState({
-      loaded: true
-    });
-  };
-
-  deletePlace = id => {
-    this.setState(
-      {
-        places: this.state.places.filter(place => place.id !== id)
-      },
-      () => {
-        localStorage.setItem('places', JSON.stringify(this.state.places));
-      }
-    );
-  };
-
   render() {
-    const { places, showAllPlaces } = this.state;
+    const { places, visiblePlaces } = this.state;
 
     return (
       <div className={styles.app}>
@@ -64,16 +64,10 @@ class App extends Component {
           addPlace={this.addPlace}
           loaded={this.state.loaded}
           onLoaded={this.setLoaded}
-          showAllPlaces={showAllPlaces}
+          visiblePlaces={visiblePlaces}
         />
 
-        <Places
-          onVisitedChange={this.handleVisitedChange}
-          onPlaceClick={this.onListClick}
-          showAllPlaces={this.showAllPlaces}
-          deletePlace={this.deletePlace}
-          places={places}
-        />
+        <Places deletePlace={this.deletePlace} setVisible={this.setVisible} places={places} />
       </div>
     );
   }

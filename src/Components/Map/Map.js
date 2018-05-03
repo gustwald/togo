@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+
 import ReactMapboxGl, { Popup, Marker } from 'react-mapbox-gl';
 
 import uuidv1 from 'uuid';
@@ -18,7 +20,6 @@ class MapBox extends Component {
     start: [18.06324, 59.334591],
     controls: false,
     overlay: 'mapbox://styles/mapbox/streets-v9',
-
     lng: '',
     lat: '',
     placeTitle: ''
@@ -62,7 +63,7 @@ class MapBox extends Component {
 
   render() {
     const { start, controls, overlay, lat, lng } = this.state;
-    const { loaded, showAllPlaces, places, onLoaded } = this.props;
+    const { visiblePlaces, loaded, onLoaded } = this.props;
 
     return (
       <Map
@@ -90,19 +91,24 @@ class MapBox extends Component {
           <input name="placeTitle" type="text" onChange={this.onChange} />
           <button onClick={this.onAddPlace}>Lägg til</button>
         </Popup>
-        {showAllPlaces &&
-          places.map(place => (
-            <Marker key={place.id} coordinates={[place.longitude, place.latitude]} anchor="bottom">
-              <img
-                className={styles.marker}
-                src={place.visited ? markerVisited : marker}
-                alt={place.id}
-              />
-            </Marker>
-          ))}
+        {visiblePlaces.map(place => (
+          <Marker key={place.id} coordinates={[place.longitude, place.latitude]} anchor="bottom">
+            <img
+              className={styles.marker}
+              src={place.visited ? markerVisited : marker}
+              alt={place.id}
+            />
+          </Marker>
+        ))}
       </Map>
     );
   }
 }
+
+MapBox.propTypes = {
+  loaded: PropTypes.bool.isRequired,
+  visiblePlaces: PropTypes.array.isRequired,
+  onLoaded: PropTypes.func.isRequired
+};
 
 export default MapBox;

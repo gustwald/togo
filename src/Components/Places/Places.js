@@ -21,7 +21,7 @@ class Places extends Component {
   };
 
   render() {
-    const { places, deletePlace } = this.props;
+    const { places, deletePlace, setVisible } = this.props;
 
     const { placesClass } = this.state;
 
@@ -33,31 +33,15 @@ class Places extends Component {
         <div className={placesClass}>
           <ul>
             {places.map(place => (
-              <li
-                // onClick={() => onPlaceClick(place)}
-                className={styles.placesListItem}
-                key={place.id}
-              >
-                {place.title}
-                <input
-                  type="checkbox"
-                  //   onChange={}
-                  name="markAsVisited"
-                  id="markAsVisited"
-                />
+              <div key={place.id}>
+                <li onClick={() => setVisible(place)} className={styles.placesListItem}>
+                  {place.title}
+                  <input type="checkbox" name="markAsVisited" id="markAsVisited" />
+                </li>
                 <button onClick={() => deletePlace(place.id)}>Radera</button>
-              </li>
+              </div>
             ))}
           </ul>
-          <label htmlFor="showAllPlaces">
-            Show all places
-            <input
-              id="showAllPlaces"
-              name="showAllPlaces"
-              type="checkbox"
-              onChange={this.handleChange}
-            />
-          </label>
         </div>
       </div>
     );
@@ -66,8 +50,8 @@ class Places extends Component {
 
 Places.propTypes = {
   places: PropTypes.array.isRequired,
-  //   showAllPlaces: PropTypes.bool.isRequired,
-  deletePlace: PropTypes.func.isRequired
+  deletePlace: PropTypes.func.isRequired,
+  setVisible: PropTypes.func.isRequired
 };
 
 export default Places;
