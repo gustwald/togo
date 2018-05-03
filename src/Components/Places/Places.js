@@ -7,8 +7,11 @@ import styles from './Places.module.scss';
 
 class Places extends Component {
   state = {
-    placesClass: styles.places
+    placesClass: styles.places,
+    searchWord: ''
   };
+
+  onSearch = e => this.setState({ [e.target.name]: e.target.value });
 
   toggleMenu = () => {
     const { placesClass } = this.state;
@@ -21,9 +24,15 @@ class Places extends Component {
   };
 
   render() {
-    const { places, deletePlace, setVisible, markPlaceAsVisited } = this.props;
+    const { deletePlace, setVisible, markPlaceAsVisited } = this.props;
+    const { placesClass, searchWord } = this.state;
+    // use let instead of const so we can manipulate places with search
+    let { places } = this.props;
 
-    const { placesClass } = this.state;
+    // If we have searchword, we filter and see if we have any place with title that matches searchword
+    if (searchWord) {
+      places = places.filter(place => place.title.toLowerCase().includes(searchWord.toLowerCase()));
+    }
 
     // Nullcheck if we dont have any saved places yet, otherwise prop-types would break the app
     if (!places) return null;
@@ -31,9 +40,15 @@ class Places extends Component {
       <div>
         <Menu onMenuClick={this.toggleMenu} />
         <div className={placesClass}>
+          <input
+            type="text"
+            name="searchWord"
+            onChange={this.onSearch}
+            placeholder="Search for a place.."
+          />
           <ul>
             {places.map(place => (
-              <div key={place.id}>
+              <div className={styles.placesWrapper} key={place.id}>
                 <li onClick={() => setVisible(place)} className={styles.placesListItem}>
                   {place.title}
                 </li>

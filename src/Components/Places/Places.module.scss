@@ -18,6 +18,11 @@
 .places.open {
   transform: translateX(0);
 }
+
+.placesWrapper {
+  display: flex;
+}
+
 .placesListItem {
   text-transform: uppercase;
   font-family: 'Open Sans   ', sans-serif;

@@ -57,6 +57,7 @@ class MapBox extends Component {
     this.setState({ lng: longitude, lat: latitude });
   };
 
+  // onChange func so that we add the title to the state, so we then can add it to the place obj
   onChange = e => this.setState({ [e.target.name]: e.target.value });
 
   handleVisitedChange = e => this.setState({ [e.target.name]: e.target.checked });
