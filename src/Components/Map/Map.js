@@ -4,12 +4,9 @@ import ReactMapboxGl, { Popup, Marker } from 'react-mapbox-gl';
 import uuidv1 from 'uuid';
 import 'mapbox-gl/dist/mapbox-gl.css';
 
-import { saveToLocalStorage, getPlacesFromLocalStorage, deletePlace } from '../../functions';
-
 import marker from '../../assets/marker.svg';
 import markerVisited from '../../assets/markerVisited.svg';
 
-import Places from '../Places/Places';
 import styles from './Map.module.scss';
 
 const Map = ReactMapboxGl({
@@ -21,18 +18,12 @@ class MapBox extends Component {
     start: [18.06324, 59.334591],
     controls: false,
     overlay: 'mapbox://styles/mapbox/streets-v9',
-    showAllPlaces: false,
+
     lng: '',
     lat: '',
-    placeTitle: '',
-    places: [],
-    loaded: false
+    placeTitle: ''
   };
 
-  componentWillMount() {
-    // Get all places from localStorage
-    this.setState({ places: getPlacesFromLocalStorage() });
-  }
   onMapClick = (map, evt) => {
     const { lng, lat } = evt.lngLat;
 
@@ -54,13 +45,7 @@ class MapBox extends Component {
       visited: false
     };
 
-    // Push place obj to state so we get UI update
-    this.state.places.push(place);
-
-    // We want to store all the places as objects in an array so we can easily iterate over it
-    // and spread it as markers
-    // TODO: add promise so that we can update map with marker as soon as we add it
-    saveToLocalStorage(place);
+    this.props.addPlace(place);
 
     // Close tooltip after adding place
     this.setState({ lng: '', lat: '' });
@@ -72,17 +57,13 @@ class MapBox extends Component {
   };
 
   onChange = e => this.setState({ [e.target.name]: e.target.value });
-  handleChange = e => this.setState({ [e.target.name]: e.target.checked });
+
   handleVisitedChange = e => this.setState({ [e.target.name]: e.target.checked });
 
-  deletePlace = place => {
-    const { id } = place;
-
-    deletePlace(id);
-  };
-
   render() {
-    const { start, controls, overlay, lat, lng, places, showAllPlaces, loaded } = this.state;
+    const { start, controls, overlay, lat, lng } = this.state;
+    const { loaded, showAllPlaces, places, onLoaded } = this.props;
+
     return (
       <Map
         style={overlay}
@@ -91,7 +72,7 @@ class MapBox extends Component {
           width: '100vw',
           visibility: loaded ? 'visible' : 'hidden'
         }}
-        onStyleLoad={() => this.setState({ loaded: true })}
+        onStyleLoad={onLoaded}
         attributionControl={controls}
         center={start}
         onClick={this.onMapClick}
@@ -119,13 +100,6 @@ class MapBox extends Component {
               />
             </Marker>
           ))}
-        <Places
-          onVisitedChange={this.handleVisitedChange}
-          onPlaceClick={this.onListClick}
-          handleChange={this.handleChange}
-          deletePlace={this.deletePlace}
-          places={places}
-        />
       </Map>
     );
   }
