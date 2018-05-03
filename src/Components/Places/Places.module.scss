@@ -2,7 +2,7 @@
 
 .places {
   width: 200px;
-  height: 400px;
+  min-height: 400px;
   background: white;
 
   position: absolute;
@@ -11,7 +11,7 @@
   z-index: 3;
   transform: translateX(400px);
   padding: 20px 30px;
-  transition: transform 0.3s ease-in-out;
+  transition: transform 0.5s ease-in-out;
 }
 
 .places.open {

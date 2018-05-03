@@ -21,14 +21,7 @@ class Places extends Component {
   };
 
   render() {
-    const {
-      places,
-      handleChange,
-      onPlaceClick,
-      onVisitedChange,
-      deletePlace,
-      onMenuClick
-    } = this.props;
+    const { places, handleChange, onPlaceClick, onVisitedChange, deletePlace } = this.props;
 
     const { placesClass } = this.state;
 
@@ -39,23 +32,22 @@ class Places extends Component {
         <Menu onMenuClick={this.toggleMenu} />
         <div className={placesClass}>
           <ul>
-            {places &&
-              places.map(place => (
-                <li
-                  onClick={() => onPlaceClick(place)}
-                  className={styles.placesListItem}
-                  key={place.id}
-                >
-                  {place.title}
-                  <input
-                    type="checkbox"
-                    onChange={onVisitedChange}
-                    name="markAsVisited"
-                    id="markAsVisited"
-                  />
-                  <button onClick={() => deletePlace(place)}>RADEra</button>
-                </li>
-              ))}
+            {places.map(place => (
+              <li
+                onClick={() => onPlaceClick(place)}
+                className={styles.placesListItem}
+                key={place.id}
+              >
+                {place.title}
+                <input
+                  type="checkbox"
+                  onChange={onVisitedChange}
+                  name="markAsVisited"
+                  id="markAsVisited"
+                />
+                <button onClick={() => deletePlace(place)}>RADEra</button>
+              </li>
+            ))}
           </ul>
           <label htmlFor="showAllPlaces">
             Show all places
@@ -74,7 +66,10 @@ class Places extends Component {
 
 Places.propTypes = {
   places: PropTypes.array.isRequired,
-  handleChange: PropTypes.func.isRequired
+  handleChange: PropTypes.func.isRequired,
+  onPlaceClick: PropTypes.func.isRequired,
+  onVisitedChange: PropTypes.func.isRequired,
+  deletePlace: PropTypes.func.isRequired
 };
 
 export default Places;
