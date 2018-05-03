@@ -1,8 +1,11 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
 import { Popup } from 'react-mapbox-gl';
+
 import styles from './Popup.module.scss';
 
-const Popup = ({ lng, lat }) => (
+const MapPopup = ({ lng, lat, placeTitle, onAddPlace, title, onChange }) => (
   <Popup
     coordinates={[lng, lat]}
     offset={{
@@ -11,10 +14,19 @@ const Popup = ({ lng, lat }) => (
       'bottom-right': [-12, -38]
     }}
   >
-    <h1>Title</h1>
-    <input name="placeTitle" type="text" onChange={this.onChange} />
-    <button onClick={this.onAddPlace}>Lägg til</button>
+    <h2>{title}</h2>
+    <input name="placeTitle" value={placeTitle} type="text" onChange={onChange} />
+    <button onClick={onAddPlace}>Lägg til</button>
   </Popup>
 );
 
-export default Popup;
+MapPopup.propTypes = {
+  lng: PropTypes.number.isRequired,
+  lat: PropTypes.number.isRequired,
+  onAddPlace: PropTypes.func.isRequired,
+  title: PropTypes.string.isRequired,
+  placeTitle: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired
+};
+
+export default MapPopup;

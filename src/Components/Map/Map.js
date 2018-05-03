@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import ReactMapboxGl, { Popup, Marker } from 'react-mapbox-gl';
-
+import ReactMapboxGl, { Marker } from 'react-mapbox-gl';
 import uuidv1 from 'uuid';
 import 'mapbox-gl/dist/mapbox-gl.css';
 
+import Popup from '../Popup/Popup';
 import marker from '../../assets/marker.svg';
 import markerVisited from '../../assets/markerVisited.svg';
 
@@ -20,8 +20,8 @@ class MapBox extends Component {
     start: [18.06324, 59.334591],
     controls: false,
     overlay: 'mapbox://styles/mapbox/streets-v9',
-    lng: '',
-    lat: '',
+    lng: 0,
+    lat: 0,
     placeTitle: ''
   };
 
@@ -49,7 +49,7 @@ class MapBox extends Component {
     this.props.addPlace(place);
 
     // Close tooltip after adding place
-    this.setState({ lng: '', lat: '' });
+    this.setState({ lng: 0, lat: 0, placeTitle: '' });
   };
 
   onListClick = place => {
@@ -62,7 +62,7 @@ class MapBox extends Component {
   handleVisitedChange = e => this.setState({ [e.target.name]: e.target.checked });
 
   render() {
-    const { start, controls, overlay, lat, lng } = this.state;
+    const { start, controls, overlay, lat, lng, placeTitle } = this.state;
     const { visiblePlaces, loaded, onLoaded, places } = this.props;
 
     // Select places based on visiblePlaces array
@@ -81,23 +81,19 @@ class MapBox extends Component {
         center={start}
         onClick={this.onMapClick}
       >
-        {/* Add POPUP as component instead */}
         <Popup
-          coordinates={[lng, lat]}
-          offset={{
-            'bottom-left': [12, -38],
-            bottom: [0, -38],
-            'bottom-right': [-12, -38]
-          }}
-        >
-          <h1>Title</h1>
-          <input name="placeTitle" type="text" onChange={this.onChange} />
-          <button onClick={this.onAddPlace}>Lägg til</button>
-        </Popup>
+          lng={lng}
+          lat={lat}
+          placeTitle={placeTitle}
+          title="Give your place a name"
+          onChange={this.onChange}
+          onAddPlace={this.onAddPlace}
+        />
         {markers.map(place => (
           <Marker key={place.id} coordinates={[place.longitude, place.latitude]} anchor="bottom">
             <img
               className={styles.marker}
+              // Different marker if place is visited
               src={place.visited ? markerVisited : marker}
               alt={place.id}
             />

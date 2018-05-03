@@ -30,10 +30,11 @@ class App extends Component {
   markPlaceAsVisited = (id, visited) => {
     this.setState(
       {
-        // Mao over the places, if we find a match, we change the prop visited to true for that match,
+        // Map over the places, if we find a match, we change the prop visited to true for that match,
         // otherwise dont change anything
         places: this.state.places.map(place => (place.id === id ? { ...place, visited } : place))
       },
+      // Callback because setState is asynchronous
       () => {
         localStorage.setItem('places', JSON.stringify(this.state.places));
       }

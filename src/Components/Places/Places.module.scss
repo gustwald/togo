@@ -26,6 +26,10 @@
   transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;
 }
 
+.placesListItemSelected {
+  transform: translateX(6px);
+}
+
 .placesListItem:hover {
   transform: translateX(6px);
   color: red;
