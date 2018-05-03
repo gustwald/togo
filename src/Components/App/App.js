@@ -23,15 +23,27 @@ class App extends Component {
 
   setVisible = visible => {
     this.setState({
-      visiblePlaces: [visible]
+      visiblePlaces: [visible.id]
     });
   };
 
+  markPlaceAsVisited = (id, visited) => {
+    this.setState(
+      {
+        // Mao over the places, if we find a match, we change the prop visited to true for that match,
+        // otherwise dont change anything
+        places: this.state.places.map(place => (place.id === id ? { ...place, visited } : place))
+      },
+      () => {
+        localStorage.setItem('places', JSON.stringify(this.state.places));
+      }
+    );
+  };
   deletePlace = id => {
     this.setState(
       {
         places: this.state.places.filter(place => place.id !== id),
-        visiblePlaces: this.state.visiblePlaces.filter(place => place.id !== id)
+        visiblePlaces: this.state.visiblePlaces.filter(place => place !== id)
       },
       // Callback because setState is asynchronous
       () => {
@@ -67,7 +79,12 @@ class App extends Component {
           visiblePlaces={visiblePlaces}
         />
 
-        <Places deletePlace={this.deletePlace} setVisible={this.setVisible} places={places} />
+        <Places
+          deletePlace={this.deletePlace}
+          setVisible={this.setVisible}
+          places={places}
+          markPlaceAsVisited={this.markPlaceAsVisited}
+        />
       </div>
     );
   }

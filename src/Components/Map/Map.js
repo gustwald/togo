@@ -63,7 +63,10 @@ class MapBox extends Component {
 
   render() {
     const { start, controls, overlay, lat, lng } = this.state;
-    const { visiblePlaces, loaded, onLoaded } = this.props;
+    const { visiblePlaces, loaded, onLoaded, places } = this.props;
+
+    // Select places based on visiblePlaces array
+    const markers = places.filter(place => visiblePlaces.includes(place.id));
 
     return (
       <Map
@@ -91,7 +94,7 @@ class MapBox extends Component {
           <input name="placeTitle" type="text" onChange={this.onChange} />
           <button onClick={this.onAddPlace}>Lägg til</button>
         </Popup>
-        {visiblePlaces.map(place => (
+        {markers.map(place => (
           <Marker key={place.id} coordinates={[place.longitude, place.latitude]} anchor="bottom">
             <img
               className={styles.marker}
@@ -108,7 +111,9 @@ class MapBox extends Component {
 MapBox.propTypes = {
   loaded: PropTypes.bool.isRequired,
   visiblePlaces: PropTypes.array.isRequired,
-  onLoaded: PropTypes.func.isRequired
+  onLoaded: PropTypes.func.isRequired,
+  places: PropTypes.array.isRequired,
+  addPlace: PropTypes.func.isRequired
 };
 
 export default MapBox;

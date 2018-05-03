@@ -21,7 +21,7 @@ class Places extends Component {
   };
 
   render() {
-    const { places, deletePlace, setVisible } = this.props;
+    const { places, deletePlace, setVisible, markPlaceAsVisited } = this.props;
 
     const { placesClass } = this.state;
 
@@ -36,8 +36,14 @@ class Places extends Component {
               <div key={place.id}>
                 <li onClick={() => setVisible(place)} className={styles.placesListItem}>
                   {place.title}
-                  <input type="checkbox" name="markAsVisited" id="markAsVisited" />
                 </li>
+                <input
+                  type="checkbox"
+                  name="markAsVisited"
+                  id="markAsVisited"
+                  checked={place.visited}
+                  onChange={e => markPlaceAsVisited(place.id, e.target.checked)}
+                />
                 <button onClick={() => deletePlace(place.id)}>Radera</button>
               </div>
             ))}
@@ -51,7 +57,8 @@ class Places extends Component {
 Places.propTypes = {
   places: PropTypes.array.isRequired,
   deletePlace: PropTypes.func.isRequired,
-  setVisible: PropTypes.func.isRequired
+  setVisible: PropTypes.func.isRequired,
+  markPlaceAsVisited: PropTypes.func.isRequired
 };
 
 export default Places;
