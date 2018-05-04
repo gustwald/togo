@@ -1,8 +1,6 @@
-@import url('https://fonts.googleapis.com/css?family=Open+Sans:700');
-
 .places {
   width: 200px;
-  min-height: 400px;
+  height: 100vh;
   background: white;
 
   position: absolute;
@@ -11,8 +9,13 @@
 
   z-index: 3;
   transform: translateX(400px);
-  padding: 20px 30px;
   transition: transform 0.5s ease-in-out;
+  padding-left: 15px;
+  padding-right: 15px;
+
+  input[type='text'] {
+    margin-top: 50px;
+  }
 }
 
 .places.open {
@@ -21,11 +24,11 @@
 
 .placesWrapper {
   display: flex;
+  align-items: center;
 }
 
 .placesListItem {
   text-transform: uppercase;
-  font-family: 'Open Sans   ', sans-serif;
   font-weight: 700;
   cursor: pointer;
   transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;
@@ -35,7 +38,7 @@
   transform: translateX(6px);
 }
 
-.placesListItem:hover {
-  transform: translateX(6px);
-  color: red;
-}
+// .placesListItem:hover {
+//   transform: translateX(6px);
+//   color: red;
+// }

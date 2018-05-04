@@ -26,10 +26,12 @@ class Places extends Component {
   render() {
     const { deletePlace, setVisible, markPlaceAsVisited } = this.props;
     const { placesClass, searchWord } = this.state;
+
     // use let instead of const so we can manipulate places with search
     let { places } = this.props;
 
     // If we have searchword, we filter and see if we have any place with title that matches searchword
+    // and thus update the placesarray
     if (searchWord) {
       places = places.filter(place => place.title.toLowerCase().includes(searchWord.toLowerCase()));
     }
@@ -47,21 +49,27 @@ class Places extends Component {
             placeholder="Search for a place.."
           />
           <ul>
-            {places.map(place => (
-              <div className={styles.placesWrapper} key={place.id}>
-                <li onClick={() => setVisible(place)} className={styles.placesListItem}>
-                  {place.title}
-                </li>
-                <input
-                  type="checkbox"
-                  name="markAsVisited"
-                  id="markAsVisited"
-                  checked={place.visited}
-                  onChange={e => markPlaceAsVisited(place.id, e.target.checked)}
-                />
-                <button onClick={() => deletePlace(place.id)}>Radera</button>
-              </div>
-            ))}
+            {places.length > 0 ? (
+              places.map(place => (
+                <div className={styles.placesWrapper} key={place.id}>
+                  <input
+                    type="checkbox"
+                    name="markAsVisited"
+                    id="markAsVisited"
+                    className={styles.placesVisited}
+                    checked={place.visited}
+                    onChange={e => markPlaceAsVisited(place.id, e.target.checked)}
+                  />
+                  <label htmlFor="markAsVisited" />
+                  <li onClick={() => setVisible(place)} className={styles.placesListItem}>
+                    {place.title}
+                  </li>
+                  <button onClick={() => deletePlace(place.id)}>Radera</button>
+                </div>
+              ))
+            ) : (
+              <p>No places :(</p>
+            )}
           </ul>
         </div>
       </div>
