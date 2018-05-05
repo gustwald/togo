@@ -13,10 +13,8 @@
     "uuid": "^3.2.1"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "startRewire": "react-app-rewired start",
-    "build": "react-scripts build",
-    "buildRewire": "react-app-rewired build",
+    "start": "react-app-rewired start",
+    "build": "react-app-rewired build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
