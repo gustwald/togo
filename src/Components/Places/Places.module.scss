@@ -14,7 +14,8 @@
   padding-right: 15px;
 
   input[type='text'] {
-    margin-top: 50px;
+    margin-top: 11px;
+    margin-bottom: 30px;
   }
 }
 
@@ -28,17 +29,23 @@
 }
 
 .placesListItem {
-  text-transform: uppercase;
-  font-weight: 700;
   cursor: pointer;
+  padding: 0 10px 0 10px;
+  font-family: 'Open Sans', sans-serif;
   transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;
 }
 
 .placesListItemSelected {
+  color: #ff3603;
   transform: translateX(6px);
 }
 
-// .placesListItem:hover {
-//   transform: translateX(6px);
-//   color: red;
-// }
+.deletePlace {
+  background: url('../../assets/cancel.svg');
+  background-size: contain;
+  background-repeat: no-repeat;
+  height: 14px;
+  width: 14px;
+  border: none;
+  cursor: pointer;
+}

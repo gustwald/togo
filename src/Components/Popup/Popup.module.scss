@@ -1,0 +1,16 @@
+.btnPopup {
+  width: 100%;
+  background: #ff3603;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  border: 1px solid #ff3603;
+  padding: 10px 10px;
+  cursor: pointer;
+  transition: background 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+
+.btnPopup:hover {
+  color: #ff3603;
+  background: white;
+}

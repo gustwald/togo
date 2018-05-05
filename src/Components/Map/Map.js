@@ -86,7 +86,6 @@ class MapBox extends Component {
           lng={lng}
           lat={lat}
           placeTitle={placeTitle}
-          title="Give your place a name"
           onChange={this.onChange}
           onAddPlace={this.onAddPlace}
         />

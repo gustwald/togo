@@ -8,7 +8,8 @@ import styles from './Places.module.scss';
 class Places extends Component {
   state = {
     placesClass: styles.places,
-    searchWord: ''
+    searchWord: '',
+    placeIndex: ''
   };
 
   onSearch = e => this.setState({ [e.target.name]: e.target.value });
@@ -23,9 +24,18 @@ class Places extends Component {
     }
   };
 
+  placeClick = (place, index) => {
+    // Set marker visible
+    this.props.setVisible(place);
+
+    // Set the clicked index to state, so we can compare all places in list with that,
+    // and thus adding a selected class to it
+    this.setState({ placeIndex: index });
+  };
+
   render() {
-    const { deletePlace, setVisible, markPlaceAsVisited } = this.props;
-    const { placesClass, searchWord } = this.state;
+    const { deletePlace, markPlaceAsVisited } = this.props;
+    const { placesClass, searchWord, placeIndex } = this.state;
 
     // use let instead of const so we can manipulate places with search
     let { places } = this.props;
@@ -50,21 +60,30 @@ class Places extends Component {
           />
           <ul>
             {places.length > 0 ? (
-              places.map(place => (
+              places.map((place, index) => (
                 <div className={styles.placesWrapper} key={place.id}>
-                  <input
-                    type="checkbox"
-                    name="markAsVisited"
-                    id="markAsVisited"
-                    className={styles.placesVisited}
-                    checked={place.visited}
-                    onChange={e => markPlaceAsVisited(place.id, e.target.checked)}
-                  />
+                  {placeIndex === index ? (
+                    <input
+                      type="checkbox"
+                      name="markAsVisited"
+                      id="markAsVisited"
+                      className={styles.placesVisited}
+                      checked={place.visited}
+                      onChange={e => markPlaceAsVisited(place.id, e.target.checked)}
+                    />
+                  ) : null}
                   <label htmlFor="markAsVisited" />
-                  <li onClick={() => setVisible(place)} className={styles.placesListItem}>
+                  <li
+                    onClick={() => this.placeClick(place, index)}
+                    className={
+                      placeIndex === index
+                        ? `${styles.placesListItem} ${styles.placesListItemSelected}`
+                        : styles.placesListItem
+                    }
+                  >
                     {place.title}
                   </li>
-                  <button onClick={() => deletePlace(place.id)}>Radera</button>
+                  <button className={styles.deletePlace} onClick={() => deletePlace(place.id)} />
                 </div>
               ))
             ) : (

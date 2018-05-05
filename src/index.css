@@ -8,19 +8,21 @@
 input {
   border-radius: 5px;
   padding: 10px;
-  border: 1px solid gainsboro;
+  border: 1px solid #333;
+  color: #333;
   outline: none;
+  font-family: 'Open Sans', sans-serif;
 }
 
 .mapboxgl-popup-content {
   display: flex;
   justify-content: center;
   flex-direction: column;
-  padding: 20px;
+  align-items: center;
 }
 
 .mapboxgl-popup-content > *:not(:last-child) {
-  margin-bottom: 20px;
+  margin-bottom: 14px;
 }
 
 li {
