@@ -30,22 +30,42 @@
 
 .placesListItem {
   cursor: pointer;
+  color: black;
   padding: 0 10px 0 10px;
   font-family: 'Open Sans', sans-serif;
   transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;
 }
 
 .placesListItemSelected {
-  color: #ff3603;
+  color: rgba(51, 51, 51, 0.39);
   transform: translateX(6px);
 }
 
 .deletePlace {
-  background: url('../../assets/cancel.svg');
+  background: url('../../assets/trash.svg');
   background-size: contain;
   background-repeat: no-repeat;
-  height: 14px;
-  width: 14px;
+  height: 16px;
+  width: 16px;
   border: none;
   cursor: pointer;
+
+  transition: transform 0.2s ease-in-out;
+}
+
+.deletePlace:hover {
+  transform: scale(1.2);
+  animation: wiggle 0.2s infinite;
+}
+
+@keyframes wiggle {
+  0% {
+    transform: rotate(0deg) scale(1.2);
+  }
+  50% {
+    transform: rotate(5deg) scale(1.2);
+  }
+  100% {
+    transform: rotate(-5deg) scale(1.2);
+  }
 }

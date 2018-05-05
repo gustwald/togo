@@ -62,17 +62,15 @@ class Places extends Component {
             {places.length > 0 ? (
               places.map((place, index) => (
                 <div className={styles.placesWrapper} key={place.id}>
-                  {placeIndex === index ? (
-                    <input
-                      type="checkbox"
-                      name="markAsVisited"
-                      id="markAsVisited"
-                      className={styles.placesVisited}
-                      checked={place.visited}
-                      onChange={e => markPlaceAsVisited(place.id, e.target.checked)}
-                    />
-                  ) : null}
-                  <label htmlFor="markAsVisited" />
+                  <input
+                    type="checkbox"
+                    name="markAsVisited"
+                    id="markAsVisited"
+                    className={styles.placesVisited}
+                    checked={place.visited}
+                    onChange={e => markPlaceAsVisited(place.id, e.target.checked)}
+                  />
+                  <label className={styles.placesVisitedLabel} htmlFor="markAsVisited" />
                   <li
                     onClick={() => this.placeClick(place, index)}
                     className={
